@@ -9,57 +9,64 @@ import android.widget.GridView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.epsi1.R
 import com.example.epsi1.adapter.RecetteAdapter
+import com.example.epsi1.db.dao.RecetteDao
+import com.example.epsi1.db.database.RecetteDatabase
 import com.example.epsi1.model.Recette
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var listViewRecipe: GridView
-    private val recipesList = mutableListOf<Recette>(
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1"),
-        Recette("titre 1")
-    )
+    private lateinit var recipeAdapter: RecetteAdapter
+    private val recipesList = mutableListOf<Recette>()
+
+    private lateinit var database: RecetteDatabase
+    private lateinit var recetteDao: RecetteDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        database = RecetteDatabase.getDatabase(this)
+        recetteDao = database.recetteDao()
+        listViewRecipe = findViewById(R.id.recipesListView)
 
         val addRecipeButton = findViewById<FloatingActionButton>(R.id.addRecipeButton)
+
+        // Initialisation de l'adapter
+        recipeAdapter = RecetteAdapter(this, recipesList)
+        listViewRecipe.adapter = recipeAdapter
 
 
         addRecipeButton.setOnClickListener {
             val intent = Intent(this, AjouterRecette::class.java)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
         }
 
-        listViewRecipe = findViewById(R.id.recipesListView)
 
-        val recipeAdapter = RecetteAdapter(this, recipesList)
-        listViewRecipe.adapter = recipeAdapter
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onResume() {
+        super.onResume()
+        loadRecipes()
+    }
 
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            val title = data.getStringExtra("recipe_title") ?: return
+    private fun loadRecipes() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val recettes = recetteDao.getAllRecettes()
 
-            val newRecipe = Recette(title)
-            recipesList.add(newRecipe)
-
-            val recipeAdapter = RecetteAdapter(this, recipesList)
-            listViewRecipe.adapter = recipeAdapter
-
+            withContext(Dispatchers.Main) {
+                recipesList.clear()
+                recipesList.addAll(recettes)
+                recipeAdapter.notifyDataSetChanged()
+            }
         }
     }
 
