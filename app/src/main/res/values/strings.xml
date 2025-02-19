@@ -1,0 +1,35 @@
+<resources>
+    <!--    Main Activity-->
+    <string name="app_name">RecettesApp</string>
+    <string name="title_text">Mes Recettes</string>
+    <string name="add_recipe_button">+</string>
+    <string name="button_clicked">Bouton cliqué !</string>
+
+    <!--    Activité: ajouter une recette-->
+    <string name="recipe_title_hint">Nom de la recette</string>
+    <string name="recipe_ingredients_hint">Ingrédients</string>
+    <string name="recipe_steps_hint">Étapes de préparation</string>
+    <string name="save_recipe">Enregistrer la recette</string>
+    <string name="cancel">Annuler</string>
+    <string name="add_ingredient">Ajouter un ingrédient</string>
+    <string name="add_step">Ajouter une étape</string>
+    <string name="added_ingredient">Ingrédients ajoutés: </string>
+    <string name="added_steps">Etapes de préparation: </string>
+
+    <!-- Activité: ajouter un ingrédient -->
+    <string name="ingredient_name_hint">Nom de l\'ingrédient</string>
+    <string name="ingredient_quantity_hint">Quantité</string>
+    <string name="ingredient_unit_hint">Unité (g, ml, u, etc.)</string>
+    <string name="add_ingredient_button">Ajouter Ingrédient</string>
+    <string name="cancel_button">Annuler</string>
+
+    <!-- Messages d'erreur -->
+    <string name="error_fill_fields">Veuillez remplir tous les champs correctement</string>
+
+    <!-- Activité: ajouter une étape -->
+    <string name="step_description_hint">Description de l\'étape</string>
+    <string name="step_hint">Description de l\'étape</string>
+    <string name="add_step_button">Ajouter étape</string>
+
+
+</resources>
