@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:horizontalSpacing="8dp"
             android:minHeight="45dp"
-            android:numColumns="3"
+            android:numColumns="2"
             android:padding="5dp"
             android:verticalSpacing="8dp"
             tools:listitem="@layout/recette_elements" />
