@@ -21,13 +21,22 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardRecipeAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleText"
-
         app:strokeColor="@color/red_200"
-        app:strokeWidth="1dp"
-        >
+        app:strokeWidth="1dp">
+
+        <TextView
+            android:id="@+id/noRecipeAlert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_recipe"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:textAlignment="center"/>
+
 
         <GridView
             android:id="@+id/recipesListView"

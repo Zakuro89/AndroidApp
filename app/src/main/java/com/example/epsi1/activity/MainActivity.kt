@@ -4,8 +4,10 @@ package com.example.epsi1.activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Website
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.GridView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.epsi1.R
 import com.example.epsi1.adapter.RecetteAdapter
@@ -49,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
     }
 
     override fun onResume() {
@@ -63,6 +64,18 @@ class MainActivity : AppCompatActivity() {
             val recettes = recetteDao.getAllRecettes()
 
             withContext(Dispatchers.Main) {
+                if (recettes.isNotEmpty()) {
+                    findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardRecipeAll).visibility =
+                        View.VISIBLE
+
+                    findViewById<TextView>(R.id.noRecipeAlert).visibility = View.INVISIBLE
+
+                } else {
+                    findViewById<TextView>(R.id.noRecipeAlert).visibility = View.VISIBLE
+                }
+
+
+
                 recipesList.clear()
                 recipesList.addAll(recettes)
                 recipeAdapter.notifyDataSetChanged()

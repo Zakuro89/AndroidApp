@@ -4,6 +4,7 @@
     <string name="title_text">Mes Recettes</string>
     <string name="add_recipe_button">+</string>
     <string name="button_clicked">Bouton cliqué !</string>
+    <string name="no_recipe">Aucune recette enregistrée !</string>
 
     <!--    Activité: ajouter une recette-->
     <string name="recipe_title_hint">Nom de la recette</string>
@@ -30,6 +31,8 @@
     <string name="step_description_hint">Description de l\'étape</string>
     <string name="step_hint">Description de l\'étape</string>
     <string name="add_step_button">Ajouter étape</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="choose_from_gallery">Choisir depuis la galerie</string>
 
 
 </resources>
