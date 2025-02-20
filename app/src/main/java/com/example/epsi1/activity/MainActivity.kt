@@ -3,12 +3,13 @@ package com.example.epsi1.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Website
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.epsi1.R
 import com.example.epsi1.adapter.RecetteAdapter
 import com.example.epsi1.db.dao.RecetteDao
@@ -23,34 +24,39 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var listViewRecipe: GridView
+    private lateinit var recyclerViewRecipe: RecyclerView
     private lateinit var recipeAdapter: RecetteAdapter
     private val recipesList = mutableListOf<Recette>()
 
     private lateinit var database: RecetteDatabase
     private lateinit var recetteDao: RecetteDao
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         database = RecetteDatabase.getDatabase(this)
         recetteDao = database.recetteDao()
-        listViewRecipe = findViewById(R.id.recipesListView)
+
+        recyclerViewRecipe = findViewById(R.id.recipesRecyclerView)
+        recyclerViewRecipe.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+
+        val dividerItemDecoration = DividerItemDecoration(
+            recyclerViewRecipe.context,
+            (recyclerViewRecipe.layoutManager as LinearLayoutManager).orientation
+        )
+
+        recyclerViewRecipe.addItemDecoration(dividerItemDecoration)
+        recipeAdapter = RecetteAdapter(this, recipesList)
+        recyclerViewRecipe.adapter = recipeAdapter
 
         val addRecipeButton = findViewById<FloatingActionButton>(R.id.addRecipeButton)
-
-        // Initialisation de l'adapter
-        recipeAdapter = RecetteAdapter(this, recipesList)
-        listViewRecipe.adapter = recipeAdapter
-
-
         addRecipeButton.setOnClickListener {
             val intent = Intent(this, AjouterRecette::class.java)
             startActivity(intent)
         }
-
-
     }
 
     override fun onResume() {
@@ -68,13 +74,11 @@ class MainActivity : AppCompatActivity() {
                     findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardRecipeAll).visibility =
                         View.VISIBLE
 
-                    findViewById<TextView>(R.id.noRecipeAlert).visibility = View.INVISIBLE
+                    findViewById<TextView>(R.id.noRecipeAlert).visibility = View.GONE
 
                 } else {
                     findViewById<TextView>(R.id.noRecipeAlert).visibility = View.VISIBLE
                 }
-
-
 
                 recipesList.clear()
                 recipesList.addAll(recettes)

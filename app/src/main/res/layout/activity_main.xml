@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/titleText"
         app:strokeColor="@color/red_200"
-        app:strokeWidth="1dp">
+        app:strokeWidth="1dp"
+        >
 
         <TextView
             android:id="@+id/noRecipeAlert"
@@ -38,16 +39,14 @@
             android:textAlignment="center" />
 
 
-        <GridView
-            android:id="@+id/recipesListView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="8dp"
-            android:minHeight="45dp"
-            android:numColumns="2"
             android:padding="5dp"
-            android:verticalSpacing="8dp"
-            tools:listitem="@layout/recette_elements" />
+            android:scrollbars="horizontal"
+
+            />
     </com.google.android.material.card.MaterialCardView>
 
 
