@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+
+    implementation (libs.picasso)
     implementation (libs.material.v150)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.ksp)

@@ -1,4 +1,6 @@
 package com.example.epsi1.adapter
+
+import com.squareup.picasso.Picasso
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +9,12 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.epsi1.R
 import com.example.epsi1.model.Recette
+import android.widget.ImageView
+import java.io.File
 
-class RecetteAdapter(private val context: Context, private val recipesList: List<Recette>) : BaseAdapter() {
+
+class RecetteAdapter(private val context: Context, private val recipesList: List<Recette>) :
+    BaseAdapter() {
 
     companion object {
         private var inflater: LayoutInflater? = null
@@ -17,7 +23,6 @@ class RecetteAdapter(private val context: Context, private val recipesList: List
     init {
         inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
-
 
 
     override fun getCount(): Int = recipesList.size
@@ -30,12 +35,13 @@ class RecetteAdapter(private val context: Context, private val recipesList: List
 
     class Holder {
         lateinit var title: TextView
-
+        lateinit var image: ImageView
     }
 
     private fun initHolder(view: View): Holder {
         val holder = Holder()
         holder.title = view.findViewById(R.id.recipeTitle)
+        holder.image = view.findViewById((R.id.recipeImg))
 
 
         return holder
@@ -50,6 +56,29 @@ class RecetteAdapter(private val context: Context, private val recipesList: List
         val recipe = recipesList[position]
 
         holder.title.text = recipe.title
+
+        val imgPath = recipe.img
+
+        if (imgPath != null) {
+            if (imgPath.isNotEmpty()) {
+                val file = File(imgPath)
+                if (file.exists()) {
+                    Picasso.get()
+                        .load(file)
+                        .placeholder(R.drawable.ic_waiting)
+                        .error(R.drawable.ic_error)
+                        .into(holder.image)
+                } else {
+                    holder.image.setImageResource(R.drawable.ic_edit)
+                }
+            } else {
+                holder.image.setImageResource(R.drawable.ic_ingredient)
+            }
+        }
+
+
+
+
 
 
         return cv
