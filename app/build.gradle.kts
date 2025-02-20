@@ -38,11 +38,9 @@ android {
 }
 
 dependencies {
-
+    implementation (libs.material.v150)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.ksp)
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
@@ -19,6 +18,9 @@ import com.example.epsi1.db.database.RecetteDatabase
 import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
 import com.example.epsi1.model.Recette
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,13 +51,12 @@ class AjouterRecette : AppCompatActivity() {
     private lateinit var imageUri: Uri
     private lateinit var imagePreview: ImageView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ajouter_recettes)
 
         listViewIngredient = findViewById(R.id.ingredientListView)
-        listViewStep = findViewById((R.id.stepListView))
+        listViewStep = findViewById(R.id.stepListView)
 
         ingredientAdapter = IngredientAdapter(this, ingredientsList)
         stepAdapter = EtapeAdapter(this, stepsList)
@@ -65,41 +66,11 @@ class AjouterRecette : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val ajouterIngredientBouton = findViewById<Button>(R.id.addIngredientButton)
-        ajouterIngredientBouton.setOnClickListener {
-            val intent = Intent(this, AjouterIngredient::class.java)
-            startActivityForResult(intent, ADD_INGREDIENT_REQUEST_CODE)
-        }
-
-        val ajouterEtapeBouton = findViewById<Button>(R.id.addStep)
-        ajouterEtapeBouton.setOnClickListener {
-            val intent = Intent(this, AjouterEtape::class.java)
-            startActivityForResult(intent, ADD_STEP_REQUEST_CODE)
-        }
-
-        val sauvegarderRecetteBouton = findViewById<Button>(R.id.saveRecipeButton)
-        sauvegarderRecetteBouton.setOnClickListener {
-            val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
-
-            saveRecipeToDatabase(title)
-        }
-
-        val cancelButton = findViewById<Button>(R.id.cancelButton)
-        cancelButton.setOnClickListener {
-            finish()
-        }
-
         imagePreview = findViewById(R.id.imagePreview)
 
-        val takePhotoButton = findViewById<Button>(R.id.takePhotoButton)
-        val chooseFromGalleryButton = findViewById<Button>(R.id.chooseFromGalleryButton)
-
-        takePhotoButton.setOnClickListener {
-            openCamera()
-        }
-
-        chooseFromGalleryButton.setOnClickListener {
-            openGallery()
+        val fabMain = findViewById<FloatingActionButton>(R.id.fabMain)
+        fabMain.setOnClickListener {
+            showBottomSheet()
         }
     }
 
@@ -108,23 +79,65 @@ class AjouterRecette : AppCompatActivity() {
         return true
     }
 
+    private fun showBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
+
+        val ajouterIngredientBouton =
+            view.findViewById<FloatingActionButton>(R.id.addIngredientButton)
+        val ajouterEtapeBouton = view.findViewById<FloatingActionButton>(R.id.addStep)
+        val takePhotoButton = view.findViewById<FloatingActionButton>(R.id.takePhotoButton)
+        val chooseFromGalleryButton =
+            view.findViewById<FloatingActionButton>(R.id.chooseFromGalleryButton)
+        val sauvegarderRecetteBouton =
+            view.findViewById<FloatingActionButton>(R.id.saveRecipeButton)
+        val cancelButton = view.findViewById<FloatingActionButton>(R.id.cancelButton)
+
+        ajouterIngredientBouton.setOnClickListener {
+            val intent = Intent(this, AjouterIngredient::class.java)
+            startActivityForResult(intent, ADD_INGREDIENT_REQUEST_CODE)
+        }
+
+        ajouterEtapeBouton.setOnClickListener {
+            val intent = Intent(this, AjouterEtape::class.java)
+            startActivityForResult(intent, ADD_STEP_REQUEST_CODE)
+        }
+
+        takePhotoButton.setOnClickListener {
+            openCamera()
+        }
+
+        chooseFromGalleryButton.setOnClickListener {
+            openGallery()
+        }
+
+        sauvegarderRecetteBouton.setOnClickListener {
+            val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
+            saveRecipeToDatabase(title)
+            bottomSheetDialog.dismiss()
+        }
+
+        cancelButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ADD_INGREDIENT_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-
             val name = data.getStringExtra("ingredient_name") ?: return
             val quantity = data.getDoubleExtra("ingredient_quantity", 0.0)
             val unit = data.getStringExtra("ingredient_unit") ?: return
-
 
             val newIngredient = Ingredient(nom = name, quantite = quantity, unite = unit)
             ingredientsList.add(newIngredient)
             ingredientAdapter.notifyDataSetChanged()
 
-
         } else if (requestCode == ADD_STEP_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-
             val description = data.getStringExtra("step_description") ?: return
             val newStep = Etape(description = description)
 
@@ -132,28 +145,19 @@ class AjouterRecette : AppCompatActivity() {
             stepAdapter.notifyDataSetChanged()
 
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            // Créer le fichier pour enregistrer la photo prise
             val photoFile = createImageFile()
             val inputStream = contentResolver.openInputStream(imageUri)
             val outputStream = photoFile.outputStream()
 
-            // Copier la photo dans le fichier interne
             inputStream?.copyTo(outputStream)
-
-            // Afficher la photo dans le ImageView
             imagePreview.setImageURI(Uri.fromFile(photoFile))
-
-            // Sauvegarder le chemin  du fichier dans la BDD
             newRecipe.img = photoFile.absolutePath
 
         } else if (requestCode == GALLERY_REQUEST_CODE) {
-
             val selectedImageUri = data?.data
 
             if (selectedImageUri != null) {
                 val inputStream = contentResolver.openInputStream(selectedImageUri)
-                // Creation fichier interne pour stocker l'image
                 val photoFile = createImageFile()
                 val outputStream = photoFile.outputStream()
 
@@ -163,10 +167,7 @@ class AjouterRecette : AppCompatActivity() {
                     }
                 }
 
-                // Afficher l'image copiée dans l'ImageView
                 imagePreview.setImageURI(Uri.fromFile(photoFile))
-
-                // Sauvegarder le chemin du fichier dans la BDD
                 newRecipe.img = photoFile.absolutePath
             }
         }
@@ -175,8 +176,7 @@ class AjouterRecette : AppCompatActivity() {
     private fun saveRecipeToDatabase(title: String) {
         CoroutineScope(Dispatchers.IO).launch {
             newRecipe.title = title
-            val recetteId =
-                recetteDao.insertRecette(newRecipe)
+            val recetteId = recetteDao.insertRecette(newRecipe)
 
             ingredientsList.forEach {
                 it.recetteId = recetteId.toInt()
@@ -205,19 +205,14 @@ class AjouterRecette : AppCompatActivity() {
     }
 
     private fun createImageFile(): File {
-
         val timestamp = System.currentTimeMillis().toString()
         val fileName = "recette_$timestamp.jpg"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File(storageDir, fileName)
     }
 
-
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
-
-
 }
-

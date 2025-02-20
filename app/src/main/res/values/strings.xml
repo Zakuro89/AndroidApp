@@ -10,7 +10,7 @@
     <string name="recipe_title_hint">Nom de la recette</string>
     <string name="recipe_ingredients_hint">Ingrédients</string>
     <string name="recipe_steps_hint">Étapes de préparation</string>
-    <string name="save_recipe">Enregistrer la recette</string>
+    <string name="save_recipe">Enregistrer</string>
     <string name="cancel">Annuler</string>
     <string name="add_ingredient">Ajouter un ingrédient</string>
     <string name="add_step">Ajouter une étape</string>

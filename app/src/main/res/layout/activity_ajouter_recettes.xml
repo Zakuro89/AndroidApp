@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".activity.AjouterRecette">
 
-
+    <!-- Contenu principal (champ titre + listes) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/recipeTitle"
@@ -23,10 +23,9 @@
             android:id="@+id/ingredientsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
             android:text="@string/added_ingredient"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:paddingTop="10dp" />
 
         <ListView
             android:id="@+id/ingredientListView"
@@ -39,78 +38,34 @@
             android:id="@+id/stepsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
             android:text="@string/added_steps"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:paddingTop="10dp" />
 
         <ListView
             android:id="@+id/stepListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="450dp"
+            android:minHeight="45dp"
             tools:listitem="@layout/step_elements" />
-
-        <Button
-            android:id="@+id/addIngredientButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="@string/add_ingredient" />
-
-        <Button
-            android:id="@+id/addStep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="@string/add_step" />
 
         <ImageView
             android:id="@+id/imagePreview"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
-
-        <Button
-            android:id="@+id/takePhotoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/take_photo" />
-
-        <Button
-            android:id="@+id/chooseFromGalleryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/choose_from_gallery" />
-
-        <Button
-            android:id="@+id/saveRecipeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:text="@string/save_recipe" />
-
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="@string/cancel" />
-
+            android:src="@drawable/ic_cadre" />
 
     </LinearLayout>
-</ScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_edit"
+        android:layout_margin="16dp" />
 
-
-
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
