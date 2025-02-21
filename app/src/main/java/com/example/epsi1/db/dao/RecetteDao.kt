@@ -27,18 +27,18 @@ interface RecetteDao {
     suspend fun updateRecette(recetteEntity: RecetteEntity)
 
     @Delete
-    suspend fun deleteRecette(recetteEntity:RecetteEntity)
+    suspend fun deleteRecette(recetteEntity: RecetteEntity)
+
 
     @Transaction
     @Query("SELECT * FROM recipe_table WHERE id = :id")
-    suspend fun  getRecetteComplete(id: Long): Recette?
+    suspend fun getRecetteComplete(id: Long): Recette?
 
     @Query("SELECT * FROM recipe_table")
-    suspend fun  getAllRecettes(): List<RecetteEntity>
+    suspend fun getAllRecettes(): List<RecetteEntity>
 
-
-
-
+    @Query("DELETE FROM recipe_table WHERE id = :id")
+    suspend fun deleteRecetteById(id: Long)
 
 
 }

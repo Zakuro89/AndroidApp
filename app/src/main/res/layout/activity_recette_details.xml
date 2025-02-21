@@ -12,45 +12,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
 
     <ImageView
         android:id="@+id/my_recipe_img"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_cadre" />
 
     <TextView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textAlignment="center"
-        android:text="@string/my_recipe_ingrdredient_list"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/my_recipe_ingrdredient_list"
+        android:textAlignment="center" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
 
     <TextView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textAlignment="center"
-        android:text="@string/my_recipe_step_list"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/my_recipe_step_list"
+        android:textAlignment="center" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recipe_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
 
 </LinearLayout>

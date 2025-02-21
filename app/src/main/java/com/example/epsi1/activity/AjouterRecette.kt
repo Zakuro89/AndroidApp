@@ -11,9 +11,14 @@ import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.epsi1.R
 import com.example.epsi1.adapter.EtapeAdapter
 import com.example.epsi1.adapter.IngredientAdapter
+import com.example.epsi1.db.dao.EtapeDao
+import com.example.epsi1.db.dao.IngredientDao
+import com.example.epsi1.db.dao.RecetteDao
 import com.example.epsi1.db.database.RecetteDatabase
 import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
@@ -30,23 +35,25 @@ class AjouterRecette : AppCompatActivity() {
 
     private val newRecipe = RecetteEntity(title = "")
 
-    private lateinit var listViewIngredient: ListView
-    private lateinit var listViewStep: ListView
+    private lateinit var listViewIngredient: RecyclerView
+    private lateinit var listViewStep: RecyclerView
+
     private lateinit var ingredientAdapter: IngredientAdapter
     private lateinit var stepAdapter: EtapeAdapter
 
     private val ingredientsList = mutableListOf<Ingredient>()
     private val stepsList = mutableListOf<Etape>()
 
-    private val database by lazy { RecetteDatabase.getDatabase(this) }
-    private val recetteDao by lazy { database.recetteDao() }
-    private val ingredientDao by lazy { database.ingredientDao() }
-    private val etapeDao by lazy { database.etapeDao() }
+    private lateinit var database: RecetteDatabase
+    private lateinit var recetteDao: RecetteDao
+    private lateinit var ingredientDao: IngredientDao
+    private lateinit var etapeDao: EtapeDao
 
     private val ADD_INGREDIENT_REQUEST_CODE = 1
     private val ADD_STEP_REQUEST_CODE = 2
     private val CAMERA_REQUEST_CODE = 3
     private val GALLERY_REQUEST_CODE = 4
+
     private lateinit var imageUri: Uri
     private lateinit var imagePreview: ImageView
 
@@ -54,8 +61,21 @@ class AjouterRecette : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ajouter_recettes)
 
+
+        database = RecetteDatabase.getDatabase(this)
+        recetteDao = database.recetteDao()
+        ingredientDao = database.ingredientDao()
+        etapeDao = database.etapeDao()
+
+        // on initialise la liste
         listViewIngredient = findViewById(R.id.ingredientListView)
+        // on précise à la liste le sens dans lequel elle est ordonnée
+        listViewIngredient.layoutManager =
+            LinearLayoutManager(this@AjouterRecette, LinearLayoutManager.VERTICAL, false)
+
         listViewStep = findViewById(R.id.stepListView)
+        listViewStep.layoutManager =
+            LinearLayoutManager(this@AjouterRecette, LinearLayoutManager.VERTICAL, false)
 
         ingredientAdapter = IngredientAdapter(this, ingredientsList)
         stepAdapter = EtapeAdapter(this, stepsList)

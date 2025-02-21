@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.epsi1.R
 import com.example.epsi1.adapter.EtapeAdapter
 import com.example.epsi1.adapter.IngredientAdapter
@@ -58,12 +60,20 @@ class RecetteDetails : AppCompatActivity() {
 
                 title.text = myRecipe.title
 
-                val ingredientListView = findViewById<ListView>(R.id.my_recipe_ingredients)
+                val ingredientListView = findViewById<RecyclerView>(R.id.my_recipe_ingredients)
+
+                ingredientListView.layoutManager =
+                    LinearLayoutManager(this@RecetteDetails, LinearLayoutManager.VERTICAL, false)
+
                 val ingredientAdapter = IngredientAdapter(this@RecetteDetails, myRecipe.ingredients)
                 ingredientListView.adapter = ingredientAdapter
 
 
-                val stepsListView = findViewById<ListView>(R.id.my_recipe_steps)
+                val stepsListView = findViewById<RecyclerView>(R.id.my_recipe_steps)
+
+                stepsListView.layoutManager =
+                    LinearLayoutManager(this@RecetteDetails, LinearLayoutManager.VERTICAL, false)
+
                 val stepAdapter = EtapeAdapter(this@RecetteDetails, myRecipe.etapes)
                 stepsListView.adapter = stepAdapter
 
@@ -91,4 +101,6 @@ class RecetteDetails : AppCompatActivity() {
 
         }
     }
+
+    private fun deleteRecipe() {}
 }

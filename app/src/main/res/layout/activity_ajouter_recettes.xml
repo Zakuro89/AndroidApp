@@ -27,11 +27,12 @@
             android:textSize="18sp"
             android:paddingTop="10dp" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredientListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="45dp"
+            android:scrollbars="vertical"
             tools:listitem="@layout/ingredient_elements" />
 
         <TextView
@@ -42,11 +43,12 @@
             android:textSize="18sp"
             android:paddingTop="10dp" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stepListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="45dp"
+            android:scrollbars="vertical"
             tools:listitem="@layout/step_elements" />
 
         <ImageView
