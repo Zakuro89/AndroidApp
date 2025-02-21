@@ -124,9 +124,52 @@ class RecetteDetails : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
+        deleteButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showDeleteConfirmationDialog()
+        }
+
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
     }
 
-    private fun deleteRecipe() {}
+    private fun deleteRecipe() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                recetteDao.deleteRecetteWithDetails(recetteId)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@RecetteDetails, "Recette supprimée", Toast.LENGTH_SHORT)
+                        .show()
+                    finish()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@RecetteDetails,
+                        "Erreur lors de la suppression",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setTitle("Confirmation")
+        builder.setMessage("Voulez-vous vraiment supprimer cette recette ?")
+
+        builder.setPositiveButton("Oui") { _, _ ->
+            deleteRecipe()
+        }
+
+        builder.setNegativeButton("Non") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
 }

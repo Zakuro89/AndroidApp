@@ -41,4 +41,20 @@ interface RecetteDao {
     suspend fun deleteRecetteById(id: Long)
 
 
+    @Transaction
+    @Query("DELETE FROM ingredient_table WHERE recetteId = :recetteId")
+    suspend fun deleteIngredientsByRecetteId(recetteId: Long)
+
+    @Transaction
+    @Query("DELETE FROM step_table WHERE recetteId = :recetteId")
+    suspend fun deleteEtapesByRecetteId(recetteId: Long)
+
+    @Transaction
+    suspend fun deleteRecetteWithDetails(recetteId: Long) {
+        deleteIngredientsByRecetteId(recetteId)
+        deleteEtapesByRecetteId(recetteId)
+        deleteRecetteById(recetteId)
+    }
+
+
 }
