@@ -6,68 +6,74 @@
     android:padding="16dp"
     tools:context=".activity.AjouterRecette">
 
-    <!-- Contenu principal (champ titre + listes) -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/recipeTitle"
+        <!-- Contenu principal (champ titre + listes) -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/recipe_title_hint"
-            android:inputType="text" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/ingredientsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/added_ingredient"
-            android:textSize="18sp"
-            android:paddingTop="10dp" />
+            <EditText
+                android:id="@+id/recipeTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/recipe_title_hint"
+                android:inputType="text" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ingredientListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/ingredient_elements" />
+            <TextView
+                android:id="@+id/ingredientsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/added_ingredient"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/stepsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/added_steps"
-            android:textSize="18sp"
-            android:paddingTop="10dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredientListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/ingredient_elements" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stepListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/step_elements" />
+            <TextView
+                android:id="@+id/stepsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/added_steps"
+                android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/imagePreview"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_cadre" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/step_elements" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_cadre" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_edit"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_edit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

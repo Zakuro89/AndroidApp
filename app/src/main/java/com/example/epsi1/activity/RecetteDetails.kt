@@ -18,6 +18,8 @@ import com.example.epsi1.adapter.EtapeAdapter
 import com.example.epsi1.adapter.IngredientAdapter
 import com.example.epsi1.db.dao.RecetteDao
 import com.example.epsi1.db.database.RecetteDatabase
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +45,11 @@ class RecetteDetails : AppCompatActivity() {
         }
 
         loadRecipe()
+
+        val fabMain = findViewById<FloatingActionButton>(R.id.fabMain)
+        fabMain.setOnClickListener {
+            showBottomSheet()
+        }
 
     }
 
@@ -100,6 +107,25 @@ class RecetteDetails : AppCompatActivity() {
 
 
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
+    private fun showBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_layout_detail_recette, null)
+        val cancelButton = view.findViewById<FloatingActionButton>(R.id.cancelButton)
+        val deleteButton = view.findViewById<FloatingActionButton>(R.id.deleteButton)
+
+        cancelButton.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 
     private fun deleteRecipe() {}
