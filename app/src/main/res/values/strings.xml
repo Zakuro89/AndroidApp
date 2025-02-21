@@ -33,6 +33,8 @@
     <string name="add_step_button">Ajouter étape</string>
     <string name="take_photo">Prendre une photo</string>
     <string name="choose_from_gallery">Choisir depuis la galerie</string>
+    <string name="my_recipe_ingrdredient_list">Ingrédients nécéssaires: </string>
+    <string name="my_recipe_step_list">Etapes à suivre:</string>
 
 
 </resources>

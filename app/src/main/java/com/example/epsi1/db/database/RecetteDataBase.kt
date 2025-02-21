@@ -11,9 +11,9 @@ import com.example.epsi1.db.dao.IngredientDao
 import com.example.epsi1.db.dao.RecetteDao
 import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
-import com.example.epsi1.model.Recette
+import com.example.epsi1.model.RecetteEntity
 
-@Database(entities = [Recette::class, Ingredient::class, Etape::class], version = 2)
+@Database(entities = [RecetteEntity::class, Ingredient::class, Etape::class], version = 2)
 abstract class RecetteDatabase : RoomDatabase() {
 
     abstract fun recetteDao(): RecetteDao

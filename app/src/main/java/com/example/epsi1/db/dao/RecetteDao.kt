@@ -8,14 +8,14 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
+import com.example.epsi1.model.RecetteEntity
 import com.example.epsi1.model.Recette
-import com.example.epsi1.model.RecetteComplete
 
 @Dao
 interface RecetteDao {
 
     @Insert
-    suspend fun insertRecette(recette: Recette): Long
+    suspend fun insertRecette(recetteEntity: RecetteEntity): Long
 
     @Insert
     suspend fun insertIngredients(ingredients: List<Ingredient>)
@@ -24,17 +24,17 @@ interface RecetteDao {
     suspend fun insertEtapes(etapes: List<Etape>)
 
     @Update
-    suspend fun updateRecette(recette: Recette)
+    suspend fun updateRecette(recetteEntity: RecetteEntity)
 
     @Delete
-    suspend fun deleteRecette(recette:Recette)
+    suspend fun deleteRecette(recetteEntity:RecetteEntity)
 
     @Transaction
     @Query("SELECT * FROM recipe_table WHERE id = :id")
-    suspend fun  getRecetteComplete(id: Int): RecetteComplete?
+    suspend fun  getRecetteComplete(id: Long): Recette?
 
     @Query("SELECT * FROM recipe_table")
-    suspend fun  getAllRecettes(): List<Recette>
+    suspend fun  getAllRecettes(): List<RecetteEntity>
 
 
 

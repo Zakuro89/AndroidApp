@@ -17,8 +17,7 @@ import com.example.epsi1.adapter.IngredientAdapter
 import com.example.epsi1.db.database.RecetteDatabase
 import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
-import com.example.epsi1.model.Recette
-import com.google.android.material.bottomappbar.BottomAppBar
+import com.example.epsi1.model.RecetteEntity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +28,7 @@ import java.io.File
 
 class AjouterRecette : AppCompatActivity() {
 
-    private val newRecipe = Recette(title = "")
+    private val newRecipe = RecetteEntity(title = "")
 
     private lateinit var listViewIngredient: ListView
     private lateinit var listViewStep: ListView

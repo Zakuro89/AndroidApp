@@ -1,12 +1,17 @@
 package com.example.epsi1.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Relation
+import com.example.epsi1.model.modelinterface.IRecetteEntity
 
-@Entity(tableName = "recipe_table")
 data class Recette(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    var title: String,
-    var img: String? = null,
+    @Embedded val recette: RecetteEntity,
 
-    )
+    @Relation(parentColumn = "id", entityColumn = "recetteId", entity = Ingredient::class)
+    val ingredients: List<Ingredient>,
+
+    @Relation(parentColumn = "id", entityColumn = "recetteId", entity = Etape::class)
+    val etapes: List<Etape>
+): IRecetteEntity by recette {
+
+}

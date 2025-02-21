@@ -4,7 +4,6 @@ package com.example.epsi1.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,7 +13,7 @@ import com.example.epsi1.R
 import com.example.epsi1.adapter.RecetteAdapter
 import com.example.epsi1.db.dao.RecetteDao
 import com.example.epsi1.db.database.RecetteDatabase
-import com.example.epsi1.model.Recette
+import com.example.epsi1.model.RecetteEntity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerViewRecipe: RecyclerView
     private lateinit var recipeAdapter: RecetteAdapter
-    private val recipesList = mutableListOf<Recette>()
+    private val recipesList = mutableListOf<RecetteEntity>()
 
     private lateinit var database: RecetteDatabase
     private lateinit var recetteDao: RecetteDao
@@ -57,6 +56,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AjouterRecette::class.java)
             startActivity(intent)
         }
+
+
+
     }
 
     override fun onResume() {
