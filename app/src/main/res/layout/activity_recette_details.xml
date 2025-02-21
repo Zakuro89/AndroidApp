@@ -35,6 +35,14 @@
                 android:src="@drawable/ic_cadre" />
 
             <TextView
+                android:id="@+id/my_recipe_nb_piece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

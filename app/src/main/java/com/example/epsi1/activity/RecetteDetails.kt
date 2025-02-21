@@ -64,8 +64,16 @@ class RecetteDetails : AppCompatActivity() {
 
 
                 val title = findViewById<TextView>(R.id.my_recipe_title)
-
                 title.text = myRecipe.title
+
+                val nbPieces = findViewById<TextView>(R.id.my_recipe_nb_piece)
+
+                if (myRecipe.pieces == null) {
+                    nbPieces.text = String.format("Nombre de parts: non précisé. " )
+                } else {
+                    nbPieces.text = String.format("Nombre de parts: " + myRecipe.pieces)
+                }
+
 
                 val ingredientListView = findViewById<RecyclerView>(R.id.my_recipe_ingredients)
 

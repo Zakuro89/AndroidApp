@@ -23,6 +23,13 @@
                 android:hint="@string/recipe_title_hint"
                 android:inputType="text" />
 
+            <EditText
+                android:id="@+id/recipePieces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/recipe_pieces_hint"
+                android:inputType="number" />
+
             <TextView
                 android:id="@+id/ingredientsList"
                 android:layout_width="match_parent"

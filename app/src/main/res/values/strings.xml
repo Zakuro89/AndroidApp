@@ -35,6 +35,10 @@
     <string name="choose_from_gallery">Choisir depuis la galerie</string>
     <string name="my_recipe_ingrdredient_list">Ingrédients nécéssaires: </string>
     <string name="my_recipe_step_list">Etapes à suivre:</string>
+    <string name="recipe_pieces_hint">Nombre de part:</string>
+    <string name="take_picture">Prendre une photo</string>
+    <string name="from_gallery">Choisir depuis la galerie</string>
+    <string name="return_btn">Retour</string>
 
 
 </resources>

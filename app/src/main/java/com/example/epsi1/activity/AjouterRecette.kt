@@ -97,13 +97,15 @@ class AjouterRecette : AppCompatActivity() {
 
         sauvegarderRecetteBouton.setOnClickListener {
             val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
+            var nbPieces = findViewById<EditText>(R.id.recipePieces).text.toString().toIntOrNull()
             if (title.isNotEmpty()) {
-                saveRecipeToDatabase(title)
+                saveRecipeToDatabase(title, nbPieces)
 
             } else {
                 Toast.makeText(this, "Veuillez indiquer un nom de recette.", Toast.LENGTH_SHORT)
                     .show()
             }
+
 
         }
     }
@@ -200,10 +202,12 @@ class AjouterRecette : AppCompatActivity() {
         }
     }
 
-    private fun saveRecipeToDatabase(title: String) {
+    private fun saveRecipeToDatabase(title: String, nbPieces: Int?) {
         CoroutineScope(Dispatchers.IO).launch {
             newRecipe.title = title
+            newRecipe.pieces = nbPieces
             val recetteId = recetteDao.insertRecette(newRecipe)
+
 
             ingredientsList.forEach {
                 it.recetteId = recetteId.toInt()
