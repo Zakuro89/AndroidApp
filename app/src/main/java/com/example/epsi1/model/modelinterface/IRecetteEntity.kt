@@ -4,5 +4,6 @@ interface IRecetteEntity {
 
     var title: String
     var img: String?
+    var pieces: Int?
 
 }

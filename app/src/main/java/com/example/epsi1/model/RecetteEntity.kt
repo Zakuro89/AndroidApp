@@ -9,5 +9,7 @@ data class RecetteEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     override var title: String,
     override var img: String? = null,
+    override var pieces: Int? = null,
 
-    ): IRecetteEntity
+
+    ) : IRecetteEntity

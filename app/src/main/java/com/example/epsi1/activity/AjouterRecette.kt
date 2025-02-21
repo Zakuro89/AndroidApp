@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +34,7 @@ import java.io.File
 
 class AjouterRecette : AppCompatActivity() {
 
-    private val newRecipe = RecetteEntity(title = "")
+    private val newRecipe = RecetteEntity(title = "", img = null, pieces = null)
 
     private lateinit var listViewIngredient: RecyclerView
     private lateinit var listViewStep: RecyclerView
@@ -91,6 +92,20 @@ class AjouterRecette : AppCompatActivity() {
         fabMain.setOnClickListener {
             showBottomSheet()
         }
+
+        val sauvegarderRecetteBouton = findViewById<FloatingActionButton>(R.id.saveRecipeButton)
+
+        sauvegarderRecetteBouton.setOnClickListener {
+            val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
+            if (title.isNotEmpty()) {
+                saveRecipeToDatabase(title)
+
+            } else {
+                Toast.makeText(this, "Veuillez indiquer un nom de recette.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -108,8 +123,7 @@ class AjouterRecette : AppCompatActivity() {
         val takePhotoButton = view.findViewById<FloatingActionButton>(R.id.takePhotoButton)
         val chooseFromGalleryButton =
             view.findViewById<FloatingActionButton>(R.id.chooseFromGalleryButton)
-        val sauvegarderRecetteBouton =
-            view.findViewById<FloatingActionButton>(R.id.saveRecipeButton)
+
         val cancelButton = view.findViewById<FloatingActionButton>(R.id.cancelButton)
 
         ajouterIngredientBouton.setOnClickListener {
@@ -128,12 +142,6 @@ class AjouterRecette : AppCompatActivity() {
 
         chooseFromGalleryButton.setOnClickListener {
             openGallery()
-        }
-
-        sauvegarderRecetteBouton.setOnClickListener {
-            val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
-            saveRecipeToDatabase(title)
-            bottomSheetDialog.dismiss()
         }
 
         cancelButton.setOnClickListener {

@@ -65,7 +65,6 @@
                 android:src="@drawable/ic_cadre" />
 
         </LinearLayout>
-
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -75,5 +74,13 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveRecipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_save" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

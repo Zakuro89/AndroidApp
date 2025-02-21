@@ -9,14 +9,15 @@
         android:id="@+id/editIngredientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/ingredient_name_hint"/>
+        android:hint="@string/ingredient_name_hint"
+        />
 
     <EditText
         android:id="@+id/editIngredientQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/ingredient_quantity_hint"
-        android:inputType="numberDecimal"/>
+        android:inputType="number"/>
 
 
     <EditText

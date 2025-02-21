@@ -13,7 +13,7 @@ import com.example.epsi1.model.Etape
 import com.example.epsi1.model.Ingredient
 import com.example.epsi1.model.RecetteEntity
 
-@Database(entities = [RecetteEntity::class, Ingredient::class, Etape::class], version = 2)
+@Database(entities = [RecetteEntity::class, Ingredient::class, Etape::class], version = 3)
 abstract class RecetteDatabase : RoomDatabase() {
 
     abstract fun recetteDao(): RecetteDao
@@ -30,6 +30,12 @@ abstract class RecetteDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_2_3 = object: Migration(2,3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE recipe_table ADD COLUMN pieces INTEGER")
+            }
+        }
+
         @Synchronized
         fun getDatabase(context: Context): RecetteDatabase {
             if (!::INSTANCE.isInitialized) {
@@ -37,6 +43,7 @@ abstract class RecetteDatabase : RoomDatabase() {
                     Room
                         .databaseBuilder(context, RecetteDatabase::class.java, "recette.db")
                         .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_2_3)
                         .build()
             }
             return INSTANCE
