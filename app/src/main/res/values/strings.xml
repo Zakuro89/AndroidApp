@@ -1,7 +1,7 @@
 <resources>
     <!--    Main Activity-->
     <string name="app_name">RecettesApp</string>
-    <string name="title_text">Mes Recettes</string>
+    <string name="title_text">🧁 Mes Recettes</string>
     <string name="add_recipe_button">+</string>
     <string name="button_clicked">Bouton cliqué !</string>
     <string name="no_recipe">Aucune recette enregistrée !</string>

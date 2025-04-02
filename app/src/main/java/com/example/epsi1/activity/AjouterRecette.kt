@@ -70,6 +70,7 @@ class AjouterRecette : AppCompatActivity() {
 
         // on initialise la liste
         listViewIngredient = findViewById(R.id.ingredientListView)
+
         // on précise à la liste le sens dans lequel elle est ordonnée
         listViewIngredient.layoutManager =
             LinearLayoutManager(this@AjouterRecette, LinearLayoutManager.VERTICAL, false)
@@ -95,6 +96,7 @@ class AjouterRecette : AppCompatActivity() {
 
         val sauvegarderRecetteBouton = findViewById<FloatingActionButton>(R.id.saveRecipeButton)
 
+        // ajout d'un écouteur d'évènements pour sauvegarder la recette
         sauvegarderRecetteBouton.setOnClickListener {
             val title = findViewById<EditText>(R.id.recipeTitle).text.toString()
             var nbPieces = findViewById<EditText>(R.id.recipePieces).text.toString().toIntOrNull()
@@ -115,6 +117,7 @@ class AjouterRecette : AppCompatActivity() {
         return true
     }
 
+    // affichage d'un feuillet via le boutton flottant pour accèder à différentes actions
     private fun showBottomSheet() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
@@ -154,9 +157,11 @@ class AjouterRecette : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // traitement du résultat de l'ajout d'un ingrédient
         if (requestCode == ADD_INGREDIENT_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             val name = data.getStringExtra("ingredient_name") ?: return
             val quantity = data.getDoubleExtra("ingredient_quantity", 0.0)
@@ -166,6 +171,7 @@ class AjouterRecette : AppCompatActivity() {
             ingredientsList.add(newIngredient)
             ingredientAdapter.notifyDataSetChanged()
 
+            // traitement du résultat de l'ajout d'une étape
         } else if (requestCode == ADD_STEP_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             val description = data.getStringExtra("step_description") ?: return
             val newStep = Etape(description = description)
@@ -173,15 +179,23 @@ class AjouterRecette : AppCompatActivity() {
             stepsList.add(newStep)
             stepAdapter.notifyDataSetChanged()
 
+            // traitement du résultat de la prise de photo
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            // creation d'un nouveau fichier pour stocker l'image
             val photoFile = createImageFile()
+            // ouverture du flux d'entrée depuis une URI temporaire
             val inputStream = contentResolver.openInputStream(imageUri)
+            // Ouverture du flux de sortie vers le fichier permanent
             val outputStream = photoFile.outputStream()
 
+            // copie du flux de donnée d'entrée vers la sortie
             inputStream?.copyTo(outputStream)
+            // affichage de l'image dans l'aperçu
             imagePreview.setImageURI(Uri.fromFile(photoFile))
+            // enregistrement du chemin absolu dans l'objet recette
             newRecipe.img = photoFile.absolutePath
 
+            // traitement du résultat de la selection d'image via la galerie
         } else if (requestCode == GALLERY_REQUEST_CODE) {
             val selectedImageUri = data?.data
 
@@ -190,6 +204,7 @@ class AjouterRecette : AppCompatActivity() {
                 val photoFile = createImageFile()
                 val outputStream = photoFile.outputStream()
 
+                // gestion automatique de la fermeture des flux
                 inputStream?.use { input ->
                     outputStream.use { output ->
                         input.copyTo(output)
@@ -202,6 +217,7 @@ class AjouterRecette : AppCompatActivity() {
         }
     }
 
+    // sauvegarde de la recette dans la database
     private fun saveRecipeToDatabase(title: String, nbPieces: Int?) {
         CoroutineScope(Dispatchers.IO).launch {
             newRecipe.title = title
@@ -226,6 +242,7 @@ class AjouterRecette : AppCompatActivity() {
         }
     }
 
+    // ouverture de la camera et prise de photo
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile = createImageFile()
@@ -235,6 +252,7 @@ class AjouterRecette : AppCompatActivity() {
         startActivityForResult(intent, CAMERA_REQUEST_CODE)
     }
 
+    // creation du fichier image
     private fun createImageFile(): File {
         val timestamp = System.currentTimeMillis().toString()
         val fileName = "recette_$timestamp.jpg"
@@ -242,6 +260,7 @@ class AjouterRecette : AppCompatActivity() {
         return File(storageDir, fileName)
     }
 
+    // ouverture de la galerie
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, GALLERY_REQUEST_CODE)

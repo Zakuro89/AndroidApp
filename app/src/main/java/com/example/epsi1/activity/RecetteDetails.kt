@@ -39,6 +39,7 @@ class RecetteDetails : AppCompatActivity() {
         recetteDao = RecetteDatabase.getDatabase(this).recetteDao()
         recetteId = intent.getLongExtra("recette_id", -1L)
 
+        // vérification de la validité de l'ID de la recette
         if (recetteId == -1L) {
             Toast.makeText(this, "une erreur est survenue", Toast.LENGTH_SHORT).show()
             finish()
@@ -46,6 +47,7 @@ class RecetteDetails : AppCompatActivity() {
 
         loadRecipe()
 
+        // configuration du bouton flottant
         val fabMain = findViewById<FloatingActionButton>(R.id.fabMain)
         fabMain.setOnClickListener {
             showBottomSheet()
@@ -55,6 +57,7 @@ class RecetteDetails : AppCompatActivity() {
 
     private fun loadRecipe() {
         CoroutineScope(Dispatchers.IO).launch {
+            // récupération de la recette complète
             val myRecipe = recetteDao.getRecetteComplete(recetteId) ?: return@launch
 
 
@@ -74,7 +77,7 @@ class RecetteDetails : AppCompatActivity() {
                     nbPieces.text = String.format("Nombre de parts: " + myRecipe.pieces)
                 }
 
-
+                // configuration de la liste d'ingrédients
                 val ingredientListView = findViewById<RecyclerView>(R.id.my_recipe_ingredients)
 
                 ingredientListView.layoutManager =
@@ -83,7 +86,7 @@ class RecetteDetails : AppCompatActivity() {
                 val ingredientAdapter = IngredientAdapter(this@RecetteDetails, myRecipe.ingredients)
                 ingredientListView.adapter = ingredientAdapter
 
-
+                // configuration de la liste d'étapes
                 val stepsListView = findViewById<RecyclerView>(R.id.my_recipe_steps)
 
                 stepsListView.layoutManager =
@@ -92,6 +95,7 @@ class RecetteDetails : AppCompatActivity() {
                 val stepAdapter = EtapeAdapter(this@RecetteDetails, myRecipe.etapes)
                 stepsListView.adapter = stepAdapter
 
+                // chargement de l'image
                 val imgView = findViewById<ImageView>(R.id.my_recipe_img)
                 if (imgPath != null) {
                     if (imgPath.isNotEmpty()) {
@@ -122,6 +126,7 @@ class RecetteDetails : AppCompatActivity() {
         return true
     }
 
+    // boutton flottant avec options
     private fun showBottomSheet() {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_layout_detail_recette, null)
@@ -141,6 +146,7 @@ class RecetteDetails : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
+    // suppression d'une recette
     private fun deleteRecipe() {
         CoroutineScope(Dispatchers.IO).launch {
             try {

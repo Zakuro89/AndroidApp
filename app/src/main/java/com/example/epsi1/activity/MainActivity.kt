@@ -34,14 +34,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // initialisation de la bade de donnée et du DAO
         database = RecetteDatabase.getDatabase(this)
         recetteDao = database.recetteDao()
 
+        // configuration du RecclerView
         recyclerViewRecipe = findViewById(R.id.recipesRecyclerView)
         recyclerViewRecipe.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-
+        // décoration entre les éléments pour les séparer
         val dividerItemDecoration = DividerItemDecoration(
             recyclerViewRecipe.context,
             (recyclerViewRecipe.layoutManager as LinearLayoutManager).orientation
@@ -69,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadRecipes() {
         CoroutineScope(Dispatchers.IO).launch {
+            // récupérer toutes les recettes
             val recettes = recetteDao.getAllRecettes()
 
             withContext(Dispatchers.Main) {
